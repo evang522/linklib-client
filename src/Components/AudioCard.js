@@ -2,10 +2,11 @@ import React from 'react';
 
 export default class AudioCard extends React.Component {
 
+
   render() {
 
     return(
-      <div className='audio-card' data-id={this.props.key}>
+      <div className='audio-card'>
         <div className='ac-title'>
           {this.props.entry.title}
         </div>
@@ -23,7 +24,7 @@ export default class AudioCard extends React.Component {
         <div className='ac-tags'>
          {this.props.entry.tags ? this.props.entry.tags : 'No Tags'}
         </div>
-        <button className='open-audio-button'>
+        <button onClick={() => this.props.setCurrentEntry(this.props.entry.id)}className='open-audio-button'>
           OPEN
         </button>
         </div>

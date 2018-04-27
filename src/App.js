@@ -5,6 +5,7 @@ import AudioCard from './Components/AudioCard';
 import axios from 'axios';
 import {API_URL} from './config';
 import ModalPlayer from './Components/ModalPlayer';
+import SearchModule from './Components/SearchModule';
 
 
 
@@ -18,13 +19,18 @@ class App extends Component {
       loading:false,
       searching:false,
       currentEntry:null,
-      err:false
+      err:false,
+      searchModal:false
     }
 
   }
   
   
   componentDidMount() {
+    this.setState({
+      loading:true
+    })
+
     axios({
       'url':`${API_URL}/entries`,
       method:'GET',
@@ -34,31 +40,78 @@ class App extends Component {
     })
     .then(response => {
       this.setState({
-        entryArr: response.data
+        entryArr: response.data,
+        loading:false
       })
     })
     .catch(err => {
       this.setState({
+        loading:false,
         err:true
       })
     })
   }
   
-  setCurrentEntry(id) {
-
+  setCurrentEntry = (id) =>  {
+    const currentEntry = this.state.entryArr.filter(entry => Number(entry.id) === Number(id))
+    this.setState({
+      currentEntry
+    })
   }
+
+  clearCurrentEntry = () => {
+    this.setState({
+      currentEntry:null
+    })
+  }
+
+  setSearchModal() {
+    this.setState({
+      searchModal:true
+    })
+  }
+
+  clearSearchModal = () => {
+    this.setState({
+      searchModal:false
+    })
+  }
+
+  searchEntries(keyword) {
+    axios({
+      'url':`${API_URL}/entries`,
+      'method':'PUT',
+      headers: {
+        'content-type':'application-json'
+      }
+    })
+    .then(response => {
+      this.setState({
+        loading:false,
+        entryArr:response.data
+      })
+      .catch(err => {
+        this.setState({
+          loading:false,
+          err:true
+        })
+      })
+    })
+  }
+
 
 
   render() {
 
     const cards = this.state.entryArr ? this.state.entryArr.map(entry => {
-      return <AudioCard key={entry.id} entry={entry}/>
+      return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
     }) : '';
 
 
     return (
       <div className="App">
-        <ModalPlayer/>
+       {this.state.searchModal ? <SearchModule clearSearchModal={this.clearSearchModal}/> : '' }
+        {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
           <div className='header-brand-title'>
             LinkLib
@@ -67,7 +120,7 @@ class App extends Component {
             <ul className='navlinks-ul'>
               <li className='navlinks-li'><a href='/'>Home</a></li>
               <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li>
-              <li className='navlinks-li'><a href='/search'> Search Resources</a></li>
+              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search Resources</li>
             </ul>
           </div>
         </div>
