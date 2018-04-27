@@ -68,7 +68,7 @@ body {
   min-height:18em;
   box-shadow:3px 3px 3px gray;
   border-radius:3px;
-  margin:2em;
+  margin:1em;
   padding-top:0;
   overflow:hidden;
 }
@@ -399,7 +399,9 @@ body {
   }
 
   .navlinks-ul {
+    justify-content:center;
     margin:0;
+
   }
 
   .add-entry-container {
