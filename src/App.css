@@ -90,11 +90,15 @@ body {
 .ac-author {
   font-family: 'Black Han Sans', sans-serif;
   margin-bottom:1em;
+  margin-left:.4em;
 }
 
 .ac-description {
   margin-bottom:1em;
-  min-height:4.5em;
+  height:11em;
+  max-width:90%;
+  margin-left:.4em;
+  overflow-y:hidden;
 }
 
 
@@ -102,10 +106,13 @@ body {
   background-color:rgb(80, 78, 78);
   border-radius:3px;
   padding:4px;
-  width:3em;
+  padding-left:6px;
+  padding-right:6px;
+  max-width:12em;
   text-align:center;
   color:white;
   box-shadow:2px 2px 2px gray;
+  margin-left:.4em;
 }
 
 .ac-tags {
@@ -113,6 +120,7 @@ body {
   display:flex;
   flex-wrap:wrap;
   font-size:.9em;
+  margin-left:.4em;
 }
 
 .open-audio-button {
@@ -138,7 +146,7 @@ body {
 
 .modal-player-container {
   width:70%;
-  height:60%;
+  height:30em;
   background-color:black;
   color:white;
   margin:0 auto;
@@ -161,9 +169,31 @@ body {
   box-shadow:2px 2px 2px gray;
 }
 
+
+
 .mp-title {
   font-weight:bold;
+  margin-bottom:.5em;
 }
+
+.mp-author {
+  font-size:2em;
+  margin-bottom:.8em;
+}
+
+
+.mp-player {
+  margin:0 auto;
+  width:10em;
+  border-radius:10px;
+}
+
+.mp-description {
+  margin-top:1em;
+  min-height: 10em;
+  overflow:hidden;
+}
+
 
 .play-button {
   width:1em;
@@ -195,11 +225,11 @@ body {
 .search-module {
 
   background-color:rgb(29, 28, 28);
-  width:75em;
+  width:80%;
   height:30em;
   margin:0 auto;
   margin-top:10em;
-  border-radius:10em;
+  border-radius:3em;
 }
 
 .sm-header {
@@ -246,10 +276,107 @@ body {
   border-radius:5px;
   background-color:black;
   color:white;
-  border: .5px solid limegreen;
+  border: .5px solid white;
 
 }
 
 .search-button-container button:hover {
   box-shadow: 2px 2px 2px limegreen;
+}
+
+.add-entry-overlay {
+  background-color:rgb(0, 0, 0);
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  position:fixed;
+  animation:fadeIn .3s linear;
+}
+
+.add-entry-container {
+  background-color:rgb(29, 28, 28);
+  width:80%;
+  height:50em;
+  margin:0 auto;
+  margin-top:6em;
+  border-radius:10px;
+  box-shadow:2px 2px 6px gray;
+}
+
+.ae-header {
+  text-align:center;
+  padding-top:1em;
+  font-size:2em;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color:white;
+}
+
+
+.ae-forms {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:white;
+  font-size:1.2em;
+  text-align:center;
+}
+
+.ae-forms label {
+  margin-bottom:.2em;
+}
+
+.ae-forms input {
+  width:80%;
+  margin:0 auto;
+  height:1.8em;
+  margin-bottom:.8m;
+  font-size:1.4em;
+  padding-left:1em;
+  font-weight:bold;
+  text-align:center;
+}
+
+.ae-forms textarea {
+  width:80%;
+  margin:0 auto;
+  height:7em;
+  font-family: 'Noto Sans', sans-serif;
+  font-size:1.2em;
+  padding:1em;
+  font-weight:bold;
+}
+
+.ae-buttons-container {
+ display:block;
+ margin:0 auto;
+ margin-top:1em;
+ text-align:center; 
+}
+
+.ae-buttons-container button {
+  margin-left:1em;
+  margin-right:1em;
+  padding:1em;
+  width:8em;
+  font-size:1em;
+  font-weight:bold;
+  border-radius:5px;
+  background-color:black;
+  color:white;
+  border:none;
+
+}
+
+
+@media only screen and (min-width:1000px) {
+
+  .modal-player-container {
+    width:40%;
+  }
+
+  .add-entry-container {
+    width:50%;
+  }
+
 }

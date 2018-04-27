@@ -1,6 +1,4 @@
 import React from 'react';
-import Audio from 'react-audioplayer';
-import ReactDOM from 'react-dom';
 
 export default class ModalPlayer extends React.Component {
 
@@ -8,20 +6,9 @@ export default class ModalPlayer extends React.Component {
     document.querySelector('.player').play()
   }
 
-  onClose() {
-    ReactDOM.findDOMNode(this.audioComponent).dispatchEvent(new Event('audio-pause'));
-  }
-
 
   render() {
-    console.log(this.props, 'PROPS');
 
-    const playlist = [
-      {
-      name: this.props.entry.title,
-      src: this.props.entry.hyperlink
-      }
-    ];
 
     return(
       <div className='modal-player-overlay'>
@@ -32,15 +19,7 @@ export default class ModalPlayer extends React.Component {
           <div className='mp-author'>
             {this.props.entry.author}
           </div>
-          <div className='mp-player'>
-              <Audio
-                width={1200}
-                height={500}
-                autoPlay={false}
-                playlist={playlist}
-                ref={audioComponent => { this.audioComponent = audioComponent; }}
-              />
-          </div>
+          <audio className='audio-player' controls src={this.props.entry.hyperlink} autoplay={false}/>
           <div className='mp-description'>
             {this.props.entry.description}
           </div>
@@ -48,7 +27,6 @@ export default class ModalPlayer extends React.Component {
           </div>
           <button onClick={() => {
             this.props.clearCurrentEntry();
-            this.onClose();
             }
           } className='close-audio-button'>
             CLOSE

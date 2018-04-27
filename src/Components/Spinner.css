@@ -7,8 +7,7 @@ left: 0;
 right: 0;
 bottom: 0;
 text-align: center;
-background: #eee;
-opacity:.3;
+background: rgba(197, 196, 196, 0.6);
 animation:fadeIn 1s linear;
 }
 
@@ -20,7 +19,7 @@ vertical-align: middle;
 }
 
 .spinner-container img {
-  width:6em;
+  width:8em;
   animation:spin 1.5s linear infinite;
   padding:2em;
   background-color:white;
@@ -44,6 +43,6 @@ vertical-align: middle;
 @keyframes fadeIn {
   0% {opacity: 0;}
   70% {opacity: .0001;}
-  100% {opacity: .3;}
+  100% {opacity: .6;}
 
 }

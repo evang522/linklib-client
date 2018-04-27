@@ -4,6 +4,13 @@ export default class AudioCard extends React.Component {
 
 
   render() {
+    const tags = this.props.entry.tags ? this.props.entry.tags.map(tag => {
+      return (
+        <div className='tags-label'>
+        {tag}
+        </div>
+      )
+    }) : null;
 
     return(
       <div className='audio-card'>
@@ -18,11 +25,8 @@ export default class AudioCard extends React.Component {
           Description:
           {this.props.entry.description}
         </div>
-        <div className='tags-label'>
-          Tags
-        </div>
         <div className='ac-tags'>
-         {this.props.entry.tags ? this.props.entry.tags : 'No Tags'}
+          {tags ? tags : (<div className='tags-label'>No Tags</div>)}
         </div>
         <button onClick={() => this.props.setCurrentEntry(this.props.entry.id)}className='open-audio-button'>
           OPEN
