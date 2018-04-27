@@ -152,9 +152,9 @@ class App extends Component {
 
   render() {
 
-    const cards = this.state.entryArr ? this.state.entryArr.map(entry => {
+    const cards = this.state.entryArr.length ? this.state.entryArr.map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
-    }) : '';
+    }) : (<div className='no-cards'>No Audio Entries Found!</div>);
 
 
     return (

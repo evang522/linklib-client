@@ -22,7 +22,7 @@ export default class AudioCard extends React.Component {
           {this.props.entry.author}
         </div>
         <div className='ac-description'>
-          Description:
+          Description: 
           {this.props.entry.description}
         </div>
         <div className='ac-tags'>
