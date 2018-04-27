@@ -19,7 +19,7 @@ export default class ModalPlayer extends React.Component {
           <div className='mp-author'>
             {this.props.entry.author}
           </div>
-          <audio className='audio-player' controls src={this.props.entry.hyperlink} autoplay={false}/>
+          <audio className='audio-player' controls src={this.props.entry.hyperlink} autoPlay={false}/>
           <div className='mp-description'>
             {this.props.entry.description}
           </div>
