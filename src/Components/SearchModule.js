@@ -9,6 +9,7 @@ export default class SearchModule extends React.Component {
     }
     this.props.searchEntries(this.input.value)
     this.props.clearSearchModal()
+    this.props.clearAdding()
   }
 
   render() {
@@ -24,7 +25,11 @@ export default class SearchModule extends React.Component {
             <input ref={input => this.input = input} placeholder='Philosophy...'/>
           </div>
           <div className='search-button-container'>
-          <button onClick={() => this.props.clearSearchModal()} className='search-button search-button-close'>
+          <button onClick={() => {
+             this.props.clearSearchModal()
+             this.props.clearAdding()
+              }
+             } className='search-button search-button-close'>
             CLOSE
           </button>
           <button onClick={() => this.handleSearch()} className='search-button search-button-close'>

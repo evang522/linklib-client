@@ -160,8 +160,8 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.loading ? <Spinner/> : ''}
-        {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearAdding={this.clearAdding}/> : ''}
-       {this.state.searchModal ? <SearchModule searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
+        {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
+       {this.state.searchModal ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
           <div className='header-brand-title'>

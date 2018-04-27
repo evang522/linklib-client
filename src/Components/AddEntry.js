@@ -20,6 +20,7 @@ export default class AddEntry extends React.Component {
 
     this.props.createNewEntry(data);
     this.props.clearAdding()
+    this.props.clearSearchModal()
   }
 
   render() {
