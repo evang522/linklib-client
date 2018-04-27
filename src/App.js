@@ -6,7 +6,8 @@ import axios from 'axios';
 import {API_URL} from './config';
 import ModalPlayer from './Components/ModalPlayer';
 import SearchModule from './Components/SearchModule';
-
+import AddEntry from './Components/AddEntry';
+import Spinner from './Components/Spinner';
 
 
 class App extends Component {
@@ -20,13 +21,19 @@ class App extends Component {
       searching:false,
       currentEntry:null,
       err:false,
-      searchModal:false
+      searchModal:false,
+      isAdding:false
     }
 
   }
   
   
   componentDidMount() {
+    this.fetchEntries();
+  }
+
+  fetchEntries() {  
+
     this.setState({
       loading:true
     })
@@ -99,7 +106,43 @@ class App extends Component {
     })
   }
 
+  setAdding = () => {
+    this.setState({
+      isAdding:true
+    })
+  }
 
+  clearAdding = () => {
+    this.setState({
+      isAdding:false
+    })
+  }
+
+  createNewEntry = (dataObj) =>  {
+    this.setState({
+      loading:true
+    })
+    axios({
+      'url':`${API_URL}/entries`,
+      'method':'POST',
+      headers: {
+        'content-type':'application/json',
+      },
+      data: JSON.stringify(dataObj)
+    })
+    .then(response => {
+      this.fetchEntries();
+      this.setState({
+        loading:false
+      })
+    })
+    .catch(err => {
+      this.setState({
+        err,
+        loading:false
+      })
+    })
+  }
 
   render() {
 
@@ -110,6 +153,8 @@ class App extends Component {
 
     return (
       <div className="App">
+        {this.state.loading ? <Spinner/> : ''}
+        {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearAdding={this.clearAdding}/> : ''}
        {this.state.searchModal ? <SearchModule clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
@@ -119,6 +164,7 @@ class App extends Component {
           <div className='navlinks'>
             <ul className='navlinks-ul'>
               <li className='navlinks-li'><a href='/'>Home</a></li>
+              <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
               <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li>
               <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search Resources</li>
             </ul>
