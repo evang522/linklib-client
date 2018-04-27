@@ -122,6 +122,8 @@ class App extends Component {
     this.setState({
       loading:true
     })
+
+    console.log(dataObj);
     axios({
       'url':`${API_URL}/entries`,
       'method':'POST',
@@ -165,8 +167,8 @@ class App extends Component {
             <ul className='navlinks-ul'>
               <li className='navlinks-li'><a href='/'>Home</a></li>
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
-              <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li>
-              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search Resources</li>
+              {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
+              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>
             </ul>
           </div>
         </div>

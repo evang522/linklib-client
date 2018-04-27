@@ -95,9 +95,10 @@ body {
 
 .ac-description {
   margin-bottom:1em;
-  min-height:4.5em;
+  height:11em;
   max-width:90%;
   margin-left:.4em;
+  overflow-y:hidden;
 }
 
 
@@ -105,7 +106,9 @@ body {
   background-color:rgb(80, 78, 78);
   border-radius:3px;
   padding:4px;
-  width:3em;
+  padding-left:6px;
+  padding-right:6px;
+  max-width:12em;
   text-align:center;
   color:white;
   box-shadow:2px 2px 2px gray;
@@ -143,7 +146,7 @@ body {
 
 .modal-player-container {
   width:70%;
-  height:60%;
+  height:30em;
   background-color:black;
   color:white;
   margin:0 auto;
@@ -166,9 +169,31 @@ body {
   box-shadow:2px 2px 2px gray;
 }
 
+
+
 .mp-title {
   font-weight:bold;
+  margin-bottom:.5em;
 }
+
+.mp-author {
+  font-size:2em;
+  margin-bottom:.8em;
+}
+
+
+.mp-player {
+  margin:0 auto;
+  width:10em;
+  border-radius:10px;
+}
+
+.mp-description {
+  margin-top:1em;
+  min-height: 10em;
+  overflow:hidden;
+}
+
 
 .play-button {
   width:1em;
@@ -304,9 +329,9 @@ body {
 .ae-forms input {
   width:80%;
   margin:0 auto;
-  height:2em;
-  margin-bottom:1em;
-  font-size:1.5em;
+  height:1.8em;
+  margin-bottom:.8m;
+  font-size:1.4em;
   padding-left:1em;
   font-weight:bold;
   text-align:center;
@@ -340,5 +365,18 @@ body {
   background-color:black;
   color:white;
   border:none;
+
+}
+
+
+@media only screen and (min-width:1000px) {
+
+  .modal-player-container {
+    width:40%;
+  }
+
+  .add-entry-container {
+    width:50%;
+  }
 
 }

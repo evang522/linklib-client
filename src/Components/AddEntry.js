@@ -8,10 +8,16 @@ export default class AddEntry extends React.Component {
       console.log('prevented');
       return;
     }
+    if (this.tagsInput.value) {
+      let processedTags = this.tagsInput.value.split(',').filter(tag => tag!== '' && tag !== ' ');
+      data.tags = processedTags;
+    }
     data.author=this.authorInput.value;
     data.title=this.titleInput.value;
     data.description = this.descriptionInput.value;
     data.hyperlink = this.hyperlinkInput.value; 
+
+
     this.props.createNewEntry(data);
     this.props.clearAdding()
   }
@@ -31,6 +37,8 @@ export default class AddEntry extends React.Component {
             <input ref={input => this.hyperlinkInput = input} id='hyperlink' />
             <label htmlFor='author'>Author</label>
             <input ref={input => this.authorInput = input} id='author'/>
+            <label htmlFor='tags'>Tags (comma separated)</label>
+            <input ref={input => this.tagsInput = input} id='tags'/>
             <label htmlFor='description'>Description</label>
             <textarea ref={input => this.descriptionInput = input} id='description'/>
 
