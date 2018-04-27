@@ -8,6 +8,7 @@ import ModalPlayer from './Components/ModalPlayer';
 import SearchModule from './Components/SearchModule';
 import AddEntry from './Components/AddEntry';
 import Spinner from './Components/Spinner';
+import qs from 'qs';
 
 
 class App extends Component {
@@ -84,10 +85,14 @@ class App extends Component {
     })
   }
 
-  searchEntries(keyword) {
+  searchEntries = keyword => {
+    this.setState({
+      loading:true
+    })
+    const data = {'searchTerm':keyword}
     axios({
-      'url':`${API_URL}/entries`,
-      'method':'PUT',
+      'url':`${API_URL}/entries?${qs.stringify(data)}`,
+      'method':'GET',
       headers: {
         'content-type':'application-json'
       }
@@ -97,13 +102,13 @@ class App extends Component {
         loading:false,
         entryArr:response.data
       })
+    })
       .catch(err => {
         this.setState({
           loading:false,
           err:true
         })
       })
-    })
   }
 
   setAdding = () => {
@@ -123,7 +128,6 @@ class App extends Component {
       loading:true
     })
 
-    console.log(dataObj);
     axios({
       'url':`${API_URL}/entries`,
       'method':'POST',
@@ -157,7 +161,7 @@ class App extends Component {
       <div className="App">
         {this.state.loading ? <Spinner/> : ''}
         {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearAdding={this.clearAdding}/> : ''}
-       {this.state.searchModal ? <SearchModule clearSearchModal={this.clearSearchModal}/> : '' }
+       {this.state.searchModal ? <SearchModule searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
           <div className='header-brand-title'>
