@@ -24,11 +24,11 @@ export default class SearchModule extends React.Component {
             <input ref={input => this.input = input} placeholder='Philosophy...'/>
           </div>
           <div className='search-button-container'>
-          <button onClick={() => this.handleSearch()} className='search-button search-button-close'>
-            SEARCH
-          </button>
           <button onClick={() => this.props.clearSearchModal()} className='search-button search-button-close'>
             CLOSE
+          </button>
+          <button onClick={() => this.handleSearch()} className='search-button search-button-close'>
+            SEARCH
           </button>
           </div>
         </div>
