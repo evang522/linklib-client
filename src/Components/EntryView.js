@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 // import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
-import './App.css';
-import AudioCard from './Components/AudioCard';
+import './EntryView.css';
+import AudioCard from './AudioCard';
 import axios from 'axios';
-import {API_URL} from './config';
-import ModalPlayer from './Components/ModalPlayer';
-import SearchModule from './Components/SearchModule';
-import AddEntry from './Components/AddEntry';
-import Spinner from './Components/Spinner';
+import {API_URL} from '../config';
+import ModalPlayer from './ModalPlayer';
+import SearchModule from './SearchModule';
+import AddEntry from './AddEntry';
+import Spinner from './Spinner';
 import qs from 'qs';
-import CardList from './Components/CardList';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Landing from './Components/Landing';
 
-class App extends Component {
+
+class EntryView extends Component {
 
   constructor(props){
     super(props)
@@ -153,20 +151,6 @@ class App extends Component {
   }
 
   render() {
-    const renderMergedProps = (component, ...rest) => {
-      const finalProps = Object.assign({}, ...rest);
-      return (
-        React.createElement(component, finalProps)
-      );
-    }
-    
-    const PropsRoute = ({ component, ...rest }) => {
-      return (
-        <Route {...rest} render={routeProps => {
-          return renderMergedProps(component, routeProps, rest);
-        }}/>
-      );
-    }
 
     const cards = this.state.entryArr.length ? this.state.entryArr.map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
@@ -179,28 +163,12 @@ class App extends Component {
         {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
        {this.state.searchModal ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
-        <div className='header'>
-          <div className='header-brand-title'>
-            LinkLib
-          </div>
-          <div className='navlinks'>
-            <ul className='navlinks-ul'>
-              <li className='navlinks-li'><a href='/'>Home</a></li>
-              <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
-              {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
-              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>
-            </ul>
-          </div>
-        </div>
-          <Router>
-            <div>
-              <Route path='/landing' component={Landing} />            
-              <PropsRoute exact path='/' component={CardList} cards={cards}/>
-            </div>
-          </Router>
+          <main className='ac-container'>
+            {cards ? cards : ''}
+          </main>
       </div>
     );
   }
 }
 
-export default App;
+export default EntryView;
