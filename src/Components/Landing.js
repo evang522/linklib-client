@@ -13,9 +13,9 @@ class Landing extends React.Component {
           Login
         </div>
         <div className='login-container-body'>
-          <label for='email'>Email Address</label>
+          <label htmlFor='email'>Email Address</label>
           <input ref={input => this.emailInput = input} id='email'/>
-          <label for='password'>Password</label>
+          <label htmlFor='password'>Password</label>
           <input ref={input => this.passwordInput = input} id='password'/> 
           <button onClick={() => this.props.login(this.emailInput.value, this.passwordInput.value)} className='login-button'>Submit</button>
         </div>

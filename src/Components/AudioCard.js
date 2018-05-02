@@ -4,9 +4,9 @@ export default class AudioCard extends React.Component {
 
 
   render() {
-    const tags = this.props.entry.tags ? this.props.entry.tags.map(tag => {
+    const tags = this.props.entry.tags ? this.props.entry.tags.map((tag,index) => {
       return (
-        <div className='tags-label'>
+        <div className='tags-label' key={index}>
         {tag}
         </div>
       )

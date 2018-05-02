@@ -9,7 +9,7 @@ import AddEntry from './Components/AddEntry';
 import Spinner from './Components/Spinner';
 import qs from 'qs';
 import CardList from './Components/CardList';
-import {BrowserRouter as Router, Route, Redirect, withRouter} from 'react-router-dom';
+import {BrowserRouter as Router, Route, withRouter} from 'react-router-dom';
 import Landing from './Components/Landing';
 import jsonwebtoken from 'jsonwebtoken';
 
@@ -31,18 +31,18 @@ class App extends Component {
     }
 
   }
-  
-  
+
+
   componentDidMount() {
     this.fetchEntries();
   }
-
-  fetchEntries() {  
+  
+  
+  fetchEntries = () => {  
 
     this.setState({
       loading:true
     })
-
     axios({
       'url':`${API_URL}/entries`,
       method:'GET',
@@ -219,7 +219,6 @@ class App extends Component {
     }
 
 
-    console.log(loginObj);
     axios({
       url:`${API_URL}/login`,
       'method':'POST',
@@ -236,6 +235,7 @@ class App extends Component {
       this.setState({
         authToken: response.data.token
       })
+      this.fetchEntries();
     })
     .catch(err => {
       console.log(err);
@@ -278,7 +278,7 @@ class App extends Component {
 
     const cards = this.state.entryArr.length ? this.state.entryArr.map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
-    }) : (<div className='no-cards'>No Audio Entries Found!</div>);
+    }) : (<div className='no-cards'></div>);
 
 
     return (
@@ -297,6 +297,7 @@ class App extends Component {
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
               {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
               <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>
+              <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li>
             </ul>
           </div>
         </div>
