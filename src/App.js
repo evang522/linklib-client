@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import './App.css';
 import AudioCard from './Components/AudioCard';
 import axios from 'axios';
@@ -10,8 +9,9 @@ import AddEntry from './Components/AddEntry';
 import Spinner from './Components/Spinner';
 import qs from 'qs';
 import CardList from './Components/CardList';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Redirect, withRouter} from 'react-router-dom';
 import Landing from './Components/Landing';
+import jsonwebtoken from 'jsonwebtoken';
 
 class App extends Component {
 
@@ -25,7 +25,9 @@ class App extends Component {
       currentEntry:null,
       err:false,
       searchModal:false,
-      isAdding:false
+      isAdding:false,
+      authToken:localStorage.getItem('authToken') || null,
+      userInfo: localStorage.getItem('authToken') ? jsonwebtoken.decode(localStorage.getItem('authToken')) : null 
     }
 
   }
@@ -45,7 +47,8 @@ class App extends Component {
       'url':`${API_URL}/entries`,
       method:'GET',
       headers: {
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
       }
     })
     .then(response => {
@@ -96,7 +99,8 @@ class App extends Component {
       'url':`${API_URL}/entries?${qs.stringify(data)}`,
       'method':'GET',
       headers: {
-        'content-type':'application-json'
+        'content-type':'application-json',
+        'Authorization':this.state.authToken
       }
     })
     .then(response => {
@@ -152,6 +156,110 @@ class App extends Component {
     })
   }
 
+  //================================== Auth Actions ====================>
+  
+  register = (firstName,email,password,password1) => {
+
+    if (!firstName || !email || !password || !password1) {
+      const err = new Error();
+      err.message = 'Missing required fields';
+      return this.setState({
+        err
+      })
+    }
+    if (password !== password1) {
+      const err = new Error();
+      err.message = 'Passwords do not match';
+      return this.setState({
+        err
+      })
+    }
+
+    if (password.length !== password.trim().length) {
+      const err = new Error();
+      err.message = 'Password contains whitespace';
+      return this.setState({
+        err
+      })
+    }
+
+    //create new user
+    const newUser = {
+      firstName,
+      email,
+      password,
+      password1
+    }
+
+    axios({
+      url:`${API_URL}/users`,
+      'method':'POST',
+      headers: {
+        'content-type':'application/json'
+      },
+      data: JSON.stringify(newUser)
+    })
+    .then(response => {
+      this.setState({
+        registered:true
+      })
+    })
+    .catch(err => {
+      this.setState({
+        err
+      })
+    })
+  }
+
+
+  login = (email, password) => {
+    const loginObj = {
+      email,
+      password
+    }
+
+
+    console.log(loginObj);
+    axios({
+      url:`${API_URL}/login`,
+      'method':'POST',
+      headers: {
+        'content-type':'application/json'
+      },
+      data:JSON.stringify(loginObj)
+    })
+    .then(response => {
+      this.setState({
+        authToken:response.data.token
+      })
+      localStorage.setItem('authToken', response.data.token);
+      this.setState({
+        authToken: response.data.token
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
+
+  logout = () => {
+    this.setState({
+      userInfo:null,
+      authToken:null
+    })
+  }
+
+
+
+
+
+
+
+
+
+  //================================== Component ====================>
+  
+
   render() {
     const renderMergedProps = (component, ...rest) => {
       const finalProps = Object.assign({}, ...rest);
@@ -194,8 +302,8 @@ class App extends Component {
         </div>
           <Router>
             <div>
-              <Route path='/landing' component={Landing} />            
-              <PropsRoute exact path='/' component={CardList} cards={cards}/>
+              <PropsRoute exact path='/' component={CardList} cards={cards} loggedIn={this.state.authToken}/>
+              <PropsRoute path='/landing' component={Landing} login={this.login} loggedIn={this.state.authToken}/>            
             </div>
           </Router>
       </div>
@@ -203,4 +311,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
