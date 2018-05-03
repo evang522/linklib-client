@@ -37,9 +37,7 @@ class App extends Component {
 
 
   componentDidMount() {
-    if (this.authToken) {
     this.fetchEntries();
-    }
   }
   
   
@@ -323,7 +321,7 @@ class App extends Component {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
     }) : (<div className='no-cards'></div>);
 
-
+ 
     const myCards = this.state.entryArr.length && this.state.authToken && this.state.userInfo? this.state.entryArr.filter(entry => entry.poster === this.state.userInfo.id).map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
     }) : (<div className='no-cards'></div>);
@@ -331,8 +329,8 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.loading ? <Spinner/> : ''}
-        {this.state.isAdding ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
-       {this.state.searchModal ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
+        {this.state.isAdding && this.state.authToken ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
+       {this.state.searchModal && this.state.authToken ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
           <div className='header-brand-title'>
@@ -340,13 +338,22 @@ class App extends Component {
           </div>
           <div className='navlinks'>
             <ul className='navlinks-ul'>
-              <li className='navlinks-li'onClick={() => this.fetchEntries()}><Link to='/'>Home</Link></li>
-              <li className={this.state.viewPrivateEntries? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Entries</li>
-              <li className={this.state.viewPublicEntries? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Entries</li>
+                {this.state.authToken ? 
+                <div className='flex-div'>
+              <li className='navlinks-li'onClick={() => { 
+                if (this.state.authToken) {
+                this.fetchEntries()
+                }
+              }
+                }><Link to='/'>Home</Link></li>
+              <li className={this.state.viewPrivateEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Entries</li>
+              <li className={this.state.viewPublicEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Entries</li>
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
               {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
-              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>
+              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>4
               {this.state.authToken ? <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li> : <li className='navlinks-li'><Link to='/login'>Login</Link></li> }
+              </div>
+              : ''}
             </ul>
           </div>
         </div>

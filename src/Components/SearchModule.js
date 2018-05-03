@@ -26,7 +26,7 @@ export default class SearchModule extends React.Component {
             Search for...
           </div>
           <div className='sm-input'>
-            <input class='sm-input-input' ref={input => this.input = input} placeholder='Philosophy...'/>
+            <input className='sm-input-input' ref={input => this.input = input} placeholder='Philosophy...'/>
           </div>
           <div className='search-button-container'>
           <button onClick={() => {
