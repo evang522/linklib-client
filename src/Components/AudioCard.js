@@ -15,7 +15,7 @@ export default class AudioCard extends React.Component {
     return(
       <div className='audio-card'>
         <div className='ac-title'>
-          {this.props.entry.title}
+          {this.props.entry.title} ...posted by <div className='user-bubble'>{this.props.entry.postername}</div>
         </div>
         <div className='audio-card-contents'>
         <div className='ac-author'>

@@ -434,6 +434,15 @@ body {
   border:2px solid lightgreen !important;
 }
 
+.user-bubble {
+  background-color:rgb(20, 133, 46);
+  display:inline;
+  padding:2px;
+  border-radius:10px;
+  padding-left:10px;
+  padding-right:10px;
+}
+
 @media only screen and (min-width:1000px) {
 
   .modal-player-container {
