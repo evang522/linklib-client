@@ -425,6 +425,10 @@ body {
   margin-top:1em;
 }
 
+.flex-div {
+  display:flex;
+  flex-direction:row;
+}
 
 .selected-button {
   border:2px solid lightgreen !important;
