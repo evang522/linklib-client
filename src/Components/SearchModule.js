@@ -12,6 +12,10 @@ export default class SearchModule extends React.Component {
     this.props.clearAdding()
   }
 
+  componentDidMount() {
+    document.querySelector('.sm-input-input').focus();
+  }
+
   render() {
 
 
@@ -22,7 +26,7 @@ export default class SearchModule extends React.Component {
             Search for...
           </div>
           <div className='sm-input'>
-            <input ref={input => this.input = input} placeholder='Philosophy...'/>
+            <input class='sm-input-input' ref={input => this.input = input} placeholder='Philosophy...'/>
           </div>
           <div className='search-button-container'>
           <button onClick={() => {

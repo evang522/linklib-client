@@ -2,6 +2,11 @@ import React from 'react';
 
 export default class AddEntry extends React.Component {
   
+  componentDidMount() {
+    this.titleInput.focus();
+  }
+
+
   processEntry() {
     const data = {};
     if (!this.authorInput.value || !this.titleInput.value || !this.hyperlinkInput.value || !this.descriptionInput.value) {
@@ -34,7 +39,7 @@ export default class AddEntry extends React.Component {
           <div className='ae-forms'>
             <label htmlFor='title'>Title</label>
             <input ref={input => this.titleInput = input} id='title' className='ae-input-label'/>
-            <label htmlFor='hyperlink'>Link</label>
+            <label  htmlFor='hyperlink'>Link</label>
             <input ref={input => this.hyperlinkInput = input} id='hyperlink' />
             <label htmlFor='author'>Author</label>
             <input ref={input => this.authorInput = input} id='author'/>

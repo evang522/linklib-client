@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import './App.css';
 import AudioCard from './Components/AudioCard';
 import axios from 'axios';
@@ -9,7 +8,11 @@ import SearchModule from './Components/SearchModule';
 import AddEntry from './Components/AddEntry';
 import Spinner from './Components/Spinner';
 import qs from 'qs';
-
+import CardList from './Components/CardList';
+import {BrowserRouter as Router, Link, Route, withRouter} from 'react-router-dom';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import jsonwebtoken from 'jsonwebtoken';
 
 class App extends Component {
 
@@ -18,32 +21,39 @@ class App extends Component {
 
     this.state = {
       entryArr: [],
+      viewPublicEntries:false,
+      viewPrivateEntries:true,
       loading:false,
       searching:false,
       currentEntry:null,
       err:false,
       searchModal:false,
-      isAdding:false
+      isAdding:false,
+      authToken:localStorage.getItem('authToken') || null,
+      userInfo: localStorage.getItem('authToken') ? jsonwebtoken.decode(localStorage.getItem('authToken')) : null 
     }
 
   }
-  
-  
-  componentDidMount() {
-    this.fetchEntries();
-  }
 
-  fetchEntries() {  
+
+  componentDidMount() {
+    if (this.authToken) {
+    this.fetchEntries();
+    }
+  }
+  
+  
+  fetchEntries = () => {  
 
     this.setState({
       loading:true
     })
-
     axios({
       'url':`${API_URL}/entries`,
       method:'GET',
       headers: {
-        'content-type':'application/json'
+        'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
       }
     })
     .then(response => {
@@ -94,7 +104,8 @@ class App extends Component {
       'url':`${API_URL}/entries?${qs.stringify(data)}`,
       'method':'GET',
       headers: {
-        'content-type':'application-json'
+        'content-type':'application-json',
+        'Authorization':`Bearer ${this.state.authToken}`
       }
     })
     .then(response => {
@@ -127,12 +138,12 @@ class App extends Component {
     this.setState({
       loading:true
     })
-
     axios({
       'url':`${API_URL}/entries`,
       'method':'POST',
       headers: {
         'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
       },
       data: JSON.stringify(dataObj)
     })
@@ -150,12 +161,172 @@ class App extends Component {
     })
   }
 
+  //================================== Set Entry Views ====================>
+  setPublic = () => {
+    this.setState({
+      viewPublicEntries:true,
+      viewPrivateEntries:false
+    })
+  }
+
+  setPrivate = () => {
+    this.setState({
+      viewPublicEntries:false,
+      viewPrivateEntries:true
+    })
+  }
+
+
+
+
+  //================================== Auth Actions ====================>
+  
+  register = (name,email,password,password1) => {
+    this.setState({
+      loading:true
+    })
+
+    if (!name || !email || !password || !password1) {
+      const err = new Error();
+      err.message = 'Missing required fields';
+      return this.setState({
+        err
+      })
+    }
+    if (password !== password1) {
+      const err = new Error();
+      err.message = 'Passwords do not match';
+      return this.setState({
+        err
+      })
+    }
+
+    if (password.length !== password.trim().length) {
+      const err = new Error();
+      err.message = 'Password contains whitespace';
+      return this.setState({
+        err
+      })
+    }
+
+    //create new user
+    const newUser = {
+      name,
+      email,
+      password,
+      password1
+    }
+
+    axios({
+      url:`${API_URL}/users`,
+      'method':'POST',
+      headers: {
+        'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
+      },
+      data: JSON.stringify(newUser)
+    })
+    .then(response => {
+      this.setState({
+        registered:true,
+        loading:false
+      })
+    })
+    .catch(err => {
+      this.setState({
+        err,
+        loading:false
+      })
+    })
+  }
+
+
+  login = (email, password) => {
+    this.setState({
+      loading:true
+    })
+
+    const loginObj = {
+      email,
+      password
+    }
+
+
+    axios({
+      url:`${API_URL}/login`,
+      'method':'POST',
+      headers: {
+        'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
+      },
+      data:JSON.stringify(loginObj)
+    })
+    .then(response => {
+
+      localStorage.setItem('authToken', response.data.token);
+      this.setState({
+        authToken: response.data.token,
+      }, () => {
+        this.setState({
+          authToken:response.data.token,
+          userInfo: jsonwebtoken.decode(response.data.token),
+          loading:false
+        })
+        this.fetchEntries();
+      })
+      
+    })
+    .catch(err => {
+      this.setState({
+        loading:false
+      })
+      console.log(err);
+    })
+  }
+
+  logout = () => {
+    this.setState({
+      userInfo:null,
+      authToken:null
+    })
+    localStorage.clear('authToken');
+  }
+
+
+
+
+
+
+
+
+
+  //================================== Component ====================>
+  
+
   render() {
+    const renderMergedProps = (component, ...rest) => {
+      const finalProps = Object.assign({}, ...rest);
+      return (
+        React.createElement(component, finalProps)
+      );
+    }
+    
+    const PropsRoute = ({ component, ...rest }) => {
+      return (
+        <Route {...rest} render={routeProps => {
+          return renderMergedProps(component, routeProps, rest);
+        }}/>
+      );
+    }
 
-    const cards = this.state.entryArr.length ? this.state.entryArr.map(entry => {
+    const allCards = this.state.entryArr.length ? this.state.entryArr.map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
-    }) : (<div className='no-cards'>No Audio Entries Found!</div>);
+    }) : (<div className='no-cards'></div>);
 
+
+    const myCards = this.state.entryArr.length && this.state.authToken && this.state.userInfo? this.state.entryArr.filter(entry => entry.poster === this.state.userInfo.id).map(entry => {
+      return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
+    }) : (<div className='no-cards'></div>);
 
     return (
       <div className="App">
@@ -169,19 +340,27 @@ class App extends Component {
           </div>
           <div className='navlinks'>
             <ul className='navlinks-ul'>
-              <li className='navlinks-li'><a href='/'>Home</a></li>
+              <li className='navlinks-li'onClick={() => this.fetchEntries()}><Link to='/'>Home</Link></li>
+              <li className={this.state.viewPrivateEntries? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Entries</li>
+              <li className={this.state.viewPublicEntries? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Entries</li>
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
               {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
               <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>
+              {this.state.authToken ? <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li> : <li className='navlinks-li'><Link to='/login'>Login</Link></li> }
             </ul>
           </div>
         </div>
-          <main className='ac-container'>
-            {cards ? cards : ''}
-          </main>
+          <Router>
+            <div>
+              {this.state.viewPrivateEntries ?  <PropsRoute exact path='/' component={CardList} cards={myCards} loggedIn={this.state.authToken}/> : <PropsRoute exact path='/' component={CardList} cards={allCards} loggedIn={this.state.authToken}/>  }
+             
+              <PropsRoute path='/login' component={Login} login={this.login} loggedIn={this.state.authToken}/>            
+              <PropsRoute path='/register' component={Register} register={this.register} loggedIn={this.state.authToken} />
+            </div>
+          </Router>
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);
