@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect, withRouter} from 'react-router-dom';
 
-class Landing extends React.Component {
+class Register extends React.Component {
 
   render() {
 
@@ -10,18 +10,22 @@ class Landing extends React.Component {
       <div className='login-container'>
       {this.props.loggedIn ? <Redirect to='/'/> : ''}    
         <div className='login-container-header'>
-          Login
+          Create a New Account
         </div>
         <div className='login-container-body'>
+          <label htmlFor='name'>First Name</label>
+          <input ref={input => this.nameInput = input} id='name'/>
           <label htmlFor='email'>Email Address</label>
           <input ref={input => this.emailInput = input} id='email'/>
           <label htmlFor='password'>Password</label>
           <input ref={input => this.passwordInput = input} id='password'/> 
-          <button onClick={() => this.props.login(this.emailInput.value, this.passwordInput.value)} className='login-button'>Submit</button>
+          <label htmlFor='password1'>Verify Password</label>
+          <input type='password' ref={input => this.password1Input = input} id='password1'/> 
+          <button onClick={() => this.props.register(this.nameInput.value, this.emailInput.value, this.passwordInput.value, this.password1Input.value)} className='login-button'>Submit</button>
         </div>
       </div>
     )
   }
 }
 
-export default withRouter(Landing);
+export default withRouter(Register);

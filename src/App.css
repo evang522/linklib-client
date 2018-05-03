@@ -421,6 +421,14 @@ body {
   display:block;margin:0 auto;
 }
 
+.login-register-link {
+  margin-top:1em;
+}
+
+
+.selected-button {
+  border:2px solid lightgreen !important;
+}
 
 @media only screen and (min-width:1000px) {
 
