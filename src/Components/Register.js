@@ -12,7 +12,7 @@ class Register extends React.Component {
         <div className='login-container-header'>
           Create a New Account
         </div>
-        <div className='login-container-body'>
+        <div className='login-container-body register-container'>
           <label htmlFor='name'>First Name</label>
           <input ref={input => this.nameInput = input} id='name'/>
           <label htmlFor='email'>Email Address</label>

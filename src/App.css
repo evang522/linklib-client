@@ -421,6 +421,10 @@ body {
   display:block;margin:0 auto;
 }
 
+.register-container {
+  height:35em;
+}
+
 .login-register-link {
   margin-top:1em;
 }
@@ -457,6 +461,13 @@ body {
 
 
 @media only screen and (max-width:780px) {
+  .login-container input {
+    width:80%;
+  }
+
+  .login-container-body {
+    width:90%;
+  }
   .header-brand-title {
     text-align:center;
     padding:0;
