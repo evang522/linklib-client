@@ -30,7 +30,10 @@ class App extends Component {
       searchModal:false,
       isAdding:false,
       authToken:localStorage.getItem('authToken') || null,
-      userInfo: localStorage.getItem('authToken') ? jsonwebtoken.decode(localStorage.getItem('authToken')) : null 
+      userInfo: localStorage.getItem('authToken') ? jsonwebtoken.decode(localStorage.getItem('authToken')) : null,
+      successfulRegister: null,
+      loginMessage:null
+
     }
 
   }
@@ -226,7 +229,7 @@ class App extends Component {
     })
     .then(response => {
       this.setState({
-        registered:true,
+        successfulRegister:true,
         loading:false
       })
     })
@@ -275,23 +278,56 @@ class App extends Component {
       
     })
     .catch(err => {
+
+      if (err.response) {
+      if (err.response.status === 404) {
+       return this.setState({
+          loading:false,
+          loginMessage: 'User with this email not found.'
+        })
+      }
+      if (err.response.status === 400) {
+        return this.setState({
+           loading:false,
+           loginMessage: 'Incorrect email or password.'
+         })
+       }
+      }
+
       this.setState({
-        loading:false
+        loading:false,
+        loginMessage: 'We\'re having some issues connecting right now. Please try again later.'
       })
-      console.log(err);
     })
   }
 
   logout = () => {
     this.setState({
       userInfo:null,
-      authToken:null
+      authToken:null,
+      entryArr:[]
     })
     localStorage.clear('authToken');
   }
 
 
-
+  deleteEntry = (id)  => {
+    this.clearCurrentEntry();
+    axios({
+      'url':`${API_URL}/entries/${id}`,
+      'method':'DELETE',
+      headers: {
+        'content-type':'application/json',
+        'Authorization':`Bearer ${this.state.authToken}`
+      },
+    })
+    .then(response => {
+      this.fetchEntries();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 
 
 
@@ -322,16 +358,17 @@ class App extends Component {
     }) : (<div className='no-cards'></div>);
 
  
-    const myCards = this.state.entryArr.length && this.state.authToken && this.state.userInfo? this.state.entryArr.filter(entry => entry.poster === this.state.userInfo.id).map(entry => {
+    const myCards = this.state.entryArr.filter(entry => entry.poster === this.state.userInfo.id).length && this.state.authToken && this.state.userInfo? this.state.entryArr.filter(entry => entry.poster === this.state.userInfo.id).map(entry => {
       return <AudioCard key={entry.id} entry={entry} setCurrentEntry={this.setCurrentEntry}/>
-    }) : (<div className='no-cards'></div>);
+    }) : (<div className='no-cards'>You haven't created any audio entries!</div>);
+
 
     return (
       <div className="App">
         {this.state.loading && this.state.authToken ? <Spinner/> : ''}
         {this.state.isAdding && this.state.authToken ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
        {this.state.searchModal && this.state.authToken ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
-        {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
+        {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} deleteEntry={this.deleteEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
           <div onClick={() => { 
                 if (this.state.authToken) {
@@ -359,8 +396,8 @@ class App extends Component {
             <div>
               {this.state.viewPrivateEntries ?  <PropsRoute exact path='/' component={CardList} cards={myCards} loggedIn={this.state.authToken}/> : <PropsRoute exact path='/' component={CardList} cards={allCards} loggedIn={this.state.authToken}/>  }
              
-              <PropsRoute path='/login' component={Login} login={this.login} loggedIn={this.state.authToken}/>            
-              <PropsRoute path='/register' component={Register} register={this.register} loggedIn={this.state.authToken} />
+              <PropsRoute path='/login' component={Login} login={this.login} loginMessage={this.state.loginMessage} loggedIn={this.state.authToken}/>            
+              <PropsRoute path='/register' component={Register} register={this.register} successfulRegister={this.state.successfulRegister} loggedIn={this.state.authToken} />
             </div>
           </Router>
       </div>

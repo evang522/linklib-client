@@ -18,6 +18,7 @@ class Login extends React.Component {
           <input ref={input => this.emailInput = input} id='email'/>
           <label htmlFor='password'>Password</label>
           <input ref={input => this.passwordInput = input} type='password' id='password'/> 
+          <div className='login-message'>{this.props.loginMessage ? this.props.loginMessage : ''}</div>
           <button onClick={() => this.props.login(this.emailInput.value, this.passwordInput.value)} className='login-button'>Submit</button>
           <div className='login-register-link'><Link to='/register'>Sign up for Free</Link></div>
         </div>
