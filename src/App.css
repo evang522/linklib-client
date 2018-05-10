@@ -472,12 +472,14 @@ body {
     box-sizing:border-box;
     padding-top:5px;
     padding-bottom:5px;
+    font-size:.8em;
   }
 
   .navlinks-ul {
     justify-content:center;
     margin:0;
-
+    width:100%;
+    padding:0;
   }
 
   .add-entry-container {

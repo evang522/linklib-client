@@ -333,24 +333,22 @@ class App extends Component {
        {this.state.searchModal && this.state.authToken ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
         <div className='header'>
-          <div className='header-brand-title'>
+          <div onClick={() => { 
+                if (this.state.authToken) {
+                this.fetchEntries()
+                }
+              }} className='header-brand-title'>
             LinkLib
           </div>
           <div className='navlinks'>
             <ul className='navlinks-ul'>
                 {this.state.authToken ? 
                 <div className='flex-div'>
-              <li className='navlinks-li'onClick={() => { 
-                if (this.state.authToken) {
-                this.fetchEntries()
-                }
-              }
-                }><Link to='/'>Home</Link></li>
               <li className={this.state.viewPrivateEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Entries</li>
               <li className={this.state.viewPublicEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Entries</li>
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
               {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
-              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search For Audio</li>4
+              <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search</li>4
               {this.state.authToken ? <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li> : <li className='navlinks-li'><Link to='/login'>Login</Link></li> }
               </div>
               : ''}
