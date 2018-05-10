@@ -5,10 +5,11 @@ class Register extends React.Component {
 
   render() {
 
-
+    console.log(this.props);
     return (
       <div className='login-container'>
-      {this.props.loggedIn ? <Redirect to='/'/> : ''}    
+      {this.props.loggedIn ? <Redirect to='/'/> : ''}
+      {this.props.successfulRegister ? <Redirect to='/login'/> : ''}
         <div className='login-container-header'>
           Create a New Account
         </div>

@@ -25,12 +25,20 @@ export default class ModalPlayer extends React.Component {
           </div>
           <div className='mp-tags'>
           </div>
-          <button onClick={() => {
-            this.props.clearCurrentEntry();
-            }
-          } className='close-audio-button'>
-            CLOSE
-          </button>
+          <div className='modal-player-button-cont'>
+            <button onClick={() => {
+              this.props.clearCurrentEntry();
+              }
+            } className='close-audio-button'>
+              CLOSE
+            </button>
+            <button onClick={() => {
+              this.props.deleteEntry(this.props.entry.id);
+              }
+            } className='close-audio-button'>
+              DELETE
+            </button>
+          </div>
         </div>
       </div>
       
