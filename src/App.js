@@ -344,9 +344,9 @@ class App extends Component {
             <ul className='navlinks-ul'>
                 {this.state.authToken ? 
                 <div className='flex-div'>
-              <li className={this.state.viewPrivateEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Entries</li>
-              <li className={this.state.viewPublicEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Entries</li>
-              <li className='navlinks-li' onClick ={() => this.setAdding()}> Add Audio</li>
+              <li className={this.state.viewPrivateEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Audio</li>
+              <li className={this.state.viewPublicEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Audio</li>
+              <li className='navlinks-li' onClick ={() => this.setAdding()}> Add</li>
               {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
               <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search</li>4
               {this.state.authToken ? <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li> : <li className='navlinks-li'><Link to='/login'>Login</Link></li> }
