@@ -162,6 +162,12 @@ class App extends Component {
     })
   }
 
+  clearSuccessfulRegister() {
+    this.setState({
+      successfulRegister:null
+    })
+  }
+
   //================================== Set Entry Views ====================>
   setPublic = () => {
     this.setState({
@@ -396,7 +402,7 @@ class App extends Component {
             <div>
               {this.state.viewPrivateEntries ?  <PropsRoute exact path='/' component={CardList} cards={myCards} loggedIn={this.state.authToken}/> : <PropsRoute exact path='/' component={CardList} cards={allCards} loggedIn={this.state.authToken}/>  }
              
-              <PropsRoute path='/login' component={Login} login={this.login} loginMessage={this.state.loginMessage} loggedIn={this.state.authToken}/>            
+              <PropsRoute path='/login' clearRegister={this.clearSuccessfulRegister} component={Login} login={this.login} loginMessage={this.state.loginMessage} loggedIn={this.state.authToken}/>            
               <PropsRoute path='/register' component={Register} register={this.register} successfulRegister={this.state.successfulRegister} loggedIn={this.state.authToken} />
             </div>
           </Router>
