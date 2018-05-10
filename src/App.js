@@ -328,7 +328,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.state.loading ? <Spinner/> : ''}
+        {this.state.loading && this.state.authToken ? <Spinner/> : ''}
         {this.state.isAdding && this.state.authToken ? <AddEntry createNewEntry={this.createNewEntry} clearSearchModal={this.clearSearchModal} clearAdding={this.clearAdding}/> : ''}
        {this.state.searchModal && this.state.authToken ? <SearchModule  clearAdding={this.clearAdding} searchEntries={this.searchEntries} clearSearchModal={this.clearSearchModal}/> : '' }
         {this.state.currentEntry ? <ModalPlayer clearCurrentEntry={this.clearCurrentEntry} entry={this.state.currentEntry[0]}/> : ''}
