@@ -3,7 +3,6 @@ import React from 'react';
 export default class SearchModule extends React.Component {
 
   handleSearch() {
-    console.log('handlesearch ran');
     if (!this.input.value) {
       return;
     }

@@ -10,7 +10,6 @@ export default class AddEntry extends React.Component {
   processEntry() {
     const data = {};
     if (!this.authorInput.value || !this.titleInput.value || !this.hyperlinkInput.value || !this.descriptionInput.value) {
-      console.log('prevented');
       return;
     }
     if (this.tagsInput.value) {

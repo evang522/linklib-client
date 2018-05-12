@@ -5,7 +5,6 @@ class Register extends React.Component {
 
   render() {
 
-    console.log(this.props);
     return (
       <div className='login-container'>
       {this.props.loggedIn ? <Redirect to='/'/> : ''}

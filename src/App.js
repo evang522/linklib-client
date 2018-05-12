@@ -331,7 +331,7 @@ class App extends Component {
       this.fetchEntries();
     })
     .catch(err => {
-      console.log(err);
+      
     })
   }
 
