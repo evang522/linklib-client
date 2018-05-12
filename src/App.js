@@ -331,7 +331,7 @@ class App extends Component {
       this.fetchEntries();
     })
     .catch(err => {
-      console.log(err);
+      
     })
   }
 
@@ -381,7 +381,7 @@ class App extends Component {
                 this.fetchEntries()
                 }
               }} className='header-brand-title'>
-            LinkLib
+            <Link to='/'>LinkLib</Link>
           </div>
           <div className='navlinks'>
             <ul className='navlinks-ul'>
@@ -390,7 +390,6 @@ class App extends Component {
               <li className={this.state.viewPrivateEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPrivate()}> My Audio</li>
               <li className={this.state.viewPublicEntries && this.state.authToken ? ' navlinks-li selected-button' : 'navlinks-li'} onClick={() => this.setPublic()}> Public Audio</li>
               <li className='navlinks-li' onClick ={() => this.setAdding()}> Add</li>
-              {/* <li className='navlinks-li'><a href='/myresources'> My Audio Resources</a></li> */}
               <li className='navlinks-li' onClick={() => this.setSearchModal()}> Search</li>4
               {this.state.authToken ? <li className='navlinks-li' onClick={() => this.logout()}> Log Out</li> : <li className='navlinks-li'><Link to='/login'>Login</Link></li> }
               </div>
@@ -398,14 +397,12 @@ class App extends Component {
             </ul>
           </div>
         </div>
-          <Router>
             <div>
               {this.state.viewPrivateEntries ?  <PropsRoute exact path='/' component={CardList} cards={myCards} loggedIn={this.state.authToken}/> : <PropsRoute exact path='/' component={CardList} cards={allCards} loggedIn={this.state.authToken}/>  }
              
               <PropsRoute path='/login' clearRegister={this.clearSuccessfulRegister} component={Login} login={this.login} loginMessage={this.state.loginMessage} loggedIn={this.state.authToken}/>            
               <PropsRoute path='/register' component={Register} register={this.register} successfulRegister={this.state.successfulRegister} loggedIn={this.state.authToken} />
             </div>
-          </Router>
       </div>
     );
   }
