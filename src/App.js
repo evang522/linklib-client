@@ -13,6 +13,7 @@ import {BrowserRouter as Router, Link, Route, withRouter} from 'react-router-dom
 import Login from './Components/Login';
 import Register from './Components/Register';
 import jsonwebtoken from 'jsonwebtoken';
+import LandingPage from './Components/LandingPage';
 
 class App extends Component {
 
@@ -399,7 +400,7 @@ class App extends Component {
         </div>
             <div>
               {this.state.viewPrivateEntries ?  <PropsRoute exact path='/' component={CardList} cards={myCards} loggedIn={this.state.authToken}/> : <PropsRoute exact path='/' component={CardList} cards={allCards} loggedIn={this.state.authToken}/>  }
-             
+              <Route path='/landing' component={LandingPage}/>
               <PropsRoute path='/login' clearRegister={this.clearSuccessfulRegister} component={Login} login={this.login} loginMessage={this.state.loginMessage} loggedIn={this.state.authToken}/>            
               <PropsRoute path='/register' component={Register} register={this.register} successfulRegister={this.state.successfulRegister} loggedIn={this.state.authToken} />
             </div>
