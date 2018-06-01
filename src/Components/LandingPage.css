@@ -1,0 +1,113 @@
+.landing-page-container {
+  margin-top:5em;
+}
+
+
+.landing-page-container > header {
+  font-family: 'Black Han Sans', sans-serif;
+  font-size:3em;
+  text-align:center;
+  margin-top:3em;
+}
+
+.lp-sub-header {
+  text-align:center;
+}
+
+.how-it-works-header {
+  font-size:2em;
+}
+
+.login-btn {
+  width: 8em;
+  height: 2.8em;
+  border: none;
+  background-color: rgb(20, 133, 46);
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  border-radius: 5px;
+  display: block;
+  margin-top: 1em;
+  margin-right:.4em;
+  cursor:pointer;
+}
+
+
+.login-btn a {
+  color:white;
+  text-decoration: none;
+}
+
+.register-btn {
+  margin-left:.4em;
+  width:8em;
+  height:2.8em;
+  border:none;
+  color:black;
+  font-weight:bold;
+  font-size:1em;
+  display:block;
+  margin-top:1em;
+  background-color:none;
+  border: 1px solid black;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.lp-buttons {
+  display:flex;
+  justify-content:center;
+}
+
+.register-btn a {
+  color:black;
+  text-decoration: none;
+}
+
+.how-it-works-header {
+  text-align:center;
+  margin-top:2em;
+}
+
+.link-dress  {
+  color:white;
+  text-decoration: none;
+}
+
+.lp-how-it-works-container img {
+  width:40%;
+  display:block;
+  margin:0 auto;
+  margin-top:4em;
+  border:1px solid black;
+  border-radius:4px;
+}
+
+.lp-how-it-works-container p {
+  width:60%;
+  margin:0 auto;
+  text-align:center;
+  margin-top:1em;
+}
+
+
+
+@media only screen and (max-width:500px) {
+  .lp-how-it-works-container img {
+    width:80%;
+  }
+
+  .landing-page-container > header {
+    font-size:2.5em;
+    margin-top:4em;
+  }
+
+  .how-it-works-header {
+    font-size:1.5em;
+  }
+
+  .lp-how-it-works-container p {
+    width:90%;
+  }
+}
